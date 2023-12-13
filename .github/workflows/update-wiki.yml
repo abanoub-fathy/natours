@@ -32,7 +32,7 @@ jobs:
           git init
           git add .
           git commit -m "Update Wiki from Code Repository"
-          git push --force https://${{ secrets.WIKI_REPO_TOKEN }}@github.com/${{ secrets.WIKI_USERNAME }}/${{ secrets.WIKI_REPO }}.git master
+          git push --force https://${{ secrets.WIKI_REPO_TOKEN }}@github.com/${{ secrets.WIKI_USERNAME }}/${{ secrets.WIKI_REPO }}.git main
         env:
           USERNAME: ${{ secrets.WIKI_USERNAME }}
           WIKI_REPO: ${{ secrets.WIKI_REPO }}
