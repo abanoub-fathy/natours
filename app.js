@@ -6,14 +6,13 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
-const csp = require('helmet-csp');
-
 const AppError = require('./errors/AppError');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRouter');
 const viewRouter = require('./routes/viewRouter');
 const bookingRouter = require('./routes/bookingRouter');
+const compression = require('compression');
 
 const errorHandlerFunc = require('./middlewares/errorHandler');
 
@@ -51,6 +50,9 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
+
+// compress response
+app.use(compression());
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));

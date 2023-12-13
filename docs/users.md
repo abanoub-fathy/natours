@@ -1,3 +1,5 @@
 # Users
 
-- this is a test page for users
+## Users Routes
+
+- in user routes you will find all the endpoints for CRUD users
