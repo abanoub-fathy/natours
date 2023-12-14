@@ -24,7 +24,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   // await new Email(user).sendWelcomeEmail(url);
 
   const token = user.createToken();
-  setResCookie(res, token);
+  setResCookie(req, res, token);
 
   res.status(201).json({
     status: 'success',
@@ -48,7 +48,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   const token = user.createToken();
-  setResCookie(res, token);
+  setResCookie(req, res, token);
 
   // return user info
   res.status(200).json({
@@ -120,7 +120,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   const token = user.createToken();
-  setResCookie(res, token);
+  setResCookie(req, res, token);
 
   // return response
   res.status(200).json({
@@ -152,7 +152,7 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   const token = user.createToken();
-  setResCookie(res, token);
+  setResCookie(req, res, token);
 
   // return response
   res.status(200).json({
