@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@img/sharp-win32-x64": "^0.33.0",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -39,6 +38,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@img/sharp-win32-x64": "^0.33.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-node": "^4.1.0",
