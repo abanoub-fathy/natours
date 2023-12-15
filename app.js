@@ -13,6 +13,7 @@ const reviewRouter = require('./routes/reviewRouter');
 const viewRouter = require('./routes/viewRouter');
 const bookingRouter = require('./routes/bookingRouter');
 const compression = require('compression');
+const cors = require('cors');
 
 const errorHandlerFunc = require('./middlewares/errorHandler');
 
@@ -24,13 +25,9 @@ app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-// 1) GLOBAL MIDDLEWARES
-// Implement CORS
-// Access-Control-Allow-Origin *
-// api.natours.com, front-end natours.com
-// app.use(cors({
-//   origin: 'https://www.natours.com'
-// }))
+// enabling cors
+app.options('*', cors());
+app.use(cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
