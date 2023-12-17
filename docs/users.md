@@ -2,4 +2,5 @@
 
 ## Users Routes
 
-- in user routes you will find all the endpoints for CRUD users
+- has all the endpoints related to the user
+- most of them requires auth and restricted to admins only
