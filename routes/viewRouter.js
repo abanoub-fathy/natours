@@ -1,10 +1,12 @@
 const { Router } = require('express');
 const viewController = require('../controllers/viewController');
-const bookingController = require('../controllers/bookingController');
 const isLoggedIn = require('../middlewares/isLoggedIn');
 const requireAuth = require('../middlewares/requireAuth');
+const setAlertMsg = require('../middlewares/setAlertMsg');
 
 const router = Router();
+
+router.use(setAlertMsg);
 
 router.get('/', isLoggedIn, viewController.getOverview);
 router.get('/tours/:slug', isLoggedIn, viewController.getTour);
