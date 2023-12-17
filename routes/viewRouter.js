@@ -6,12 +6,7 @@ const requireAuth = require('../middlewares/requireAuth');
 
 const router = Router();
 
-router.get(
-  '/',
-  bookingController.createTourCheckout,
-  isLoggedIn,
-  viewController.getOverview,
-);
+router.get('/', isLoggedIn, viewController.getOverview);
 router.get('/tours/:slug', isLoggedIn, viewController.getTour);
 router.get('/login', isLoggedIn, viewController.login);
 router.get('/signup', isLoggedIn, viewController.signup);

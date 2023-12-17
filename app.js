@@ -12,6 +12,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRouter');
 const viewRouter = require('./routes/viewRouter');
 const bookingRouter = require('./routes/bookingRouter');
+const bookingController = require('./controllers/bookingController');
 const compression = require('compression');
 const cors = require('cors');
 
@@ -26,8 +27,10 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // enabling cors
-app.options('*', cors());
 app.use(cors());
+
+// enabling cors for options preflight
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -50,6 +53,13 @@ app.use('/api', limiter);
 
 // compress response
 app.use(compression());
+
+// checkoutWeebkook endpoint
+app.post(
+  '/checkout-webhook',
+  express.raw({ type: 'application/json' }),
+  bookingController.CheckoutWebhook,
+);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));

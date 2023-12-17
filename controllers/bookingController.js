@@ -4,6 +4,7 @@ const AppError = require('../errors/AppError');
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
+const User = require('../models/userModel');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
@@ -13,9 +14,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}?tour=${tour.id}&user=${
-      req.user.id
-    }&price=${tour.price}`,
+    success_url: `${req.protocol}://${req.get('host')}/my-booked-tours`,
     cancel_url: `${req.protocol}://${req.get('host')}/tours/${tour.id}`,
     customer_email: req.user.email,
     client_reference_id: tour.id,
@@ -42,14 +41,42 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createTourCheckout = catchAsync(async (req, res, next) => {
-  const { tour, user, price } = req.query;
-  if (!tour || !user || !price) {
-    return next();
-  }
+const createBookingFromSession = async (session) => {
+  const tour = session.client_reference_id;
+  const user = (await User.findOne({ email: session.customer_email })).id;
+  const price = session.line_items[0].price_data.unit_amount / 100;
 
   await Booking.create({ tour, user, price });
-  res.redirect('/');
+};
+
+exports.CheckoutWebhook = catchAsync(async (req, res, next) => {
+  const signature = request.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      request.body,
+      signature,
+      process.env.STRIPE_ENDPOINT_SECRET_LIVE,
+    );
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const session = event.data.object;
+      await createBookingFromSession(session);
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
 });
 
 exports.getAllBookings = factory.getAll(Booking);
