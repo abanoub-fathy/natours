@@ -5,7 +5,6 @@ const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
 const User = require('../models/userModel');
-const { response } = require('../app');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
@@ -51,18 +50,18 @@ const createBookingFromSession = async (session) => {
 };
 
 exports.CheckoutWebhook = catchAsync(async (req, res, next) => {
-  const signature = request.headers['stripe-signature'];
+  const signature = req.headers['stripe-signature'];
 
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      request.body,
+      req.body,
       signature,
       process.env.STRIPE_ENDPOINT_SECRET_LIVE,
     );
   } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
