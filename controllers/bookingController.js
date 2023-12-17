@@ -42,31 +42,20 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 
 const createBookingFromSession = async (session) => {
-  console.log('session =', session);
-
-  // Retrieve the session ID
-  const sessionId = session.id;
-
   try {
-    console.log('retrieving session with ID:', sessionId);
-    // Fetch the complete session information using the session ID
-    const retrievedSession = await stripe.checkout.sessions.retrieve(sessionId);
-    console.log('retrievedSession =', retrievedSession);
-
-    // Access the line items from the retrieved session
-    const lineItems = retrievedSession.line_items;
-
-    // Access the price from the first line item
-    const price = lineItems[0].price_data.unit_amount / 100;
-
     // Rest of your code to create the booking
     const tour = session.client_reference_id;
     const user = (await User.findOne({ email: session.customer_email })).id;
+    const line_items = await stripe.checkout.sessions.listLineItems(session.id);
+
+    console.log('line_items =', line_items);
+
+    // Access the price from the first line item
+    const price = line_items[0].price_data.unit_amount / 100;
 
     await Booking.create({ tour, user, price });
   } catch (error) {
     console.error('Error retrieving session:', error);
-    // Handle the error appropriately
   }
 };
 
