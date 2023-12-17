@@ -5,6 +5,7 @@ const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
 const User = require('../models/userModel');
+const { response } = require('../app');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
@@ -76,7 +77,9 @@ exports.CheckoutWebhook = catchAsync(async (req, res, next) => {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  response.send();
+  res.status(200).json({
+    received: true,
+  });
 });
 
 exports.getAllBookings = factory.getAll(Booking);
