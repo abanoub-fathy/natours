@@ -48,8 +48,10 @@ const createBookingFromSession = async (session) => {
   const sessionId = session.id;
 
   try {
+    console.log('retrieving session with ID:', sessionId);
     // Fetch the complete session information using the session ID
     const retrievedSession = await stripe.checkout.sessions.retrieve(sessionId);
+    console.log('retrievedSession =', retrievedSession);
 
     // Access the line items from the retrieved session
     const lineItems = retrievedSession.line_items;
