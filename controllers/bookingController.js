@@ -53,7 +53,7 @@ const createBookingFromSession = async (session) => {
     console.log('line_items =', line_items);
 
     // Access the price from the first line item
-    const price = line_items[0].amount_subtotal / 100;
+    const price = line_items.data[0].amount_subtotal / 100;
 
     await Booking.create({ tour, user, price });
   } catch (error) {
