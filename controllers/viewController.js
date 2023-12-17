@@ -37,7 +37,6 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.signup = catchAsync(async (req, res, next) => {
-  // res.header('Content-Security-Policy', "img-src 'self'");
   res.status(200).render('signup', {
     title: 'Create new account',
   });
