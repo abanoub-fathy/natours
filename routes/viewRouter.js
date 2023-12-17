@@ -6,6 +6,7 @@ const setAlertMsg = require('../middlewares/setAlertMsg');
 
 const router = Router();
 
+// setAlertMsg should be used to set the appropriate alert message in the view
 router.use(setAlertMsg);
 
 router.get('/', isLoggedIn, viewController.getOverview);

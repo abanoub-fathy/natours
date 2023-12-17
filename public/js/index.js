@@ -114,5 +114,5 @@ if (bookTourBtnElement) {
   });
 }
 
-const alertMsg = document.querySelector('body').dataset.alert;
+const alertMsg = document.querySelector('body').dataset.alert_msg;
 if (alertMsg) showAlert('success', alertMsg);

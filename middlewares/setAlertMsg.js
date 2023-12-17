@@ -1,7 +1,7 @@
 const setAlertMsg = (req, res, next) => {
   const { alert } = req.query;
   if (alert === 'booking') {
-    req.locals.alertMsg =
+    res.locals.alertMsg =
       'Your booking has been confirmed!. Please check your email';
   }
 
