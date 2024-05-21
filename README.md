@@ -15,13 +15,14 @@ Embark on an adventure with Natours, a full-stack web application built for natu
 
 1. Clone the repository: `git clone https://abanoub-fathy/natours.git`
 2. Install dependencies: `npm install`
-3. Configure MongoDB connection (refer to MongoDB documentation for specific instructions)
-4. Start the development server: `npm start`
+3. Change Directory `cd natours`
+4. Configure MongoDB connection (refer to MongoDB documentation for specific instructions)
+5. Start the development server: `npm start`
 
 **Tech Stack:**
 
-* Frontend: Pug
-* Backend: Node.js
-* Database: MongoDB
+* Frontend: Pug Template engine for rendering views and partials
+* Backend: Node.js & Express framework
+* Database: MongoDB for storing data
 
 
